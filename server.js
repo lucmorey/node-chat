@@ -13,7 +13,8 @@ var dbUrl = 'mongodb://user:user@ds245518.mlab.com:45518/node-chat'
 
 var Message = mongoose.model('message', {
     name: String,
-    message: String
+    message: String,
+    time: String
 })
 
 

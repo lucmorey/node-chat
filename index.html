@@ -14,20 +14,41 @@
     * {
         font-family: 'Lobster', cursive;
     }
-    p {
-        text-align: center;
+    h4 {
+        padding: 0 20px 0 20px;
         font-style: italic;
         font-weight: 500;
         color: slategray;
     }
+    h6 {
+        padding: 10px 20px 0 20px;
+        font-size: 18px;
+    }
+    p {
+        padding: 0 20px 10px 20px;
+        color: lightgray;
+        font-size: 14px;
+    }
 
+
+    #text:nth-child(even) {
+        text-align: right;
+        background: #263238;
+        color: white;
+        border-radius: 20px 20px 20px 20px;
+    }
+
+    
 </style>
     <title>node chat</title>
 </head>
 <body>
 
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar-dark bg-dark">
          <span class="navbar-brand mb-0 h1">node chat</span>
+         <span class="navbar-brand my-2 my-sm-0"id="clock"></span>
+
+
     </nav>
 
     <div class="container">
@@ -38,18 +59,25 @@
             <input id="name" class="form-control" placeholder="name">
             <br>
             <textarea id="message" class="form-control" placeholder="message"></textarea>
-            <br>
-            <button id="send" class="btn btn-dark">send</button>
+            <br>        
+            <button id="send" id="time" class="btn btn-dark">send</button>
         </div>
         <div id="messages">
 
         </div>   
     </div>
     <script>
+           
+        var now = new Date();
+        
+        $(() => {
+            $("#clock").on("load").append(now.toDateString())
+        } )
+
             var socket = io()                        
             $(() => {
                 $("#send").click(()=>{
-                    var message = { name: $("#name").val(), message: $("#message").val()}
+                    var message = { name: $("#name").val(), message: $("#message").val(), time: now.toLocaleString()}
                     postMessage(message)
                 })
                 getMessages()
@@ -58,7 +86,7 @@
         socket.on('message', addMessage)
 
         function addMessage(message){
-            $("#messages").append(`<h6> ${message.name} </h6> <p> ${message.message} </p>`)
+            $("#messages").append(`<div id="text"><h6> ${message.name} </h6> <h4> ${message.message} </h4> <p id="time"> ${message.time}</p></div>`)
         }
 
        function getMessages() {
